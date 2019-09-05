@@ -4,6 +4,13 @@ import schedule
 import requests
 import praw
 import time
+import sys
+
+
+if '--test' in sys.argv:
+    target_sub = 'FloridaGatorsDev'
+else:
+    target_sub = 'FloridaGators'
 
 
 r = praw.Reddit(client_id=CLIENT_ID,
@@ -96,11 +103,10 @@ def check_football():
                 schedule.every().day.at(thread_start).do(post_thread, 
                                                          title=thread_title,
                                                          body=thread_body,
-                                                         sub='FloridaGatorsDev',
                                                          game_thread=True)
 
 
-def post_thread(title='', body='', sub='FloridaGators', game_thread=False):
+def post_thread(title='', body='', sub=target_sub, game_thread=False):
     try:
         r.subreddit(sub).submit(title, selftext=body)
         print('Successfully posted {}'.format(title))
@@ -113,7 +119,7 @@ def post_thread(title='', body='', sub='FloridaGators', game_thread=False):
 
 
 def thread_monitor():
-    for submission in r.subreddit('FloridaGatorsDev').new(limit=25):
+    for submission in r.subreddit(target_sub).new(limit=25):
         post_date = datetime.datetime.fromtimestamp(submission.created_utc)
         post_age = datetime.datetime.now() - post_date
 
