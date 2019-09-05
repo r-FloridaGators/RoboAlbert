@@ -129,8 +129,7 @@ def thread_monitor():
                 else:
                     if submission.stickied:
                         # remove old sticky
-                        thread = r.submission(id=submission.id)
-                        thread.mod.sticky(state=False)
+                        submission.mod.sticky(state=False)
 
         # New threads set to contest mode
         if post_age.total_seconds() < 7200:
