@@ -20,7 +20,9 @@ r = praw.Reddit(client_id=CLIENT_ID,
                 username='RoboAlbert')
 
 
-football_thread = """
+game_thread_title = '[Game Thread] Florida {home_away} {opponent_school} ({start_time}, {broadcast})'
+
+football_thread_body = """
 ## Florida Gators {home_away} {opponent_school} {opponent_name}
 
 | Team | 1st | 2nd | 3rd | 4th | Total|
@@ -61,15 +63,15 @@ def check_football():
 
             # complete garbage but works on windows + linux
             today_date = '/'.join([str(int(i)) for i in datetime.datetime.now().strftime('%m/%d').split('/')])
-
-            thread_title = '[Game Thread] Florida {home_away} {opponent_school} ({start_time}, {broadcast})'.format(
+            
+            thread_title = game_thread_title.format(
                 home_away = home_away,
                 opponent_school = opponent_school,
                 start_time = start_time,
                 broadcast = broadcast
             )
 
-            thread_body = football_thread.format(
+            thread_body = football_thread_body.format(
                 home_away = home_away,
                 opponent_school = opponent_school,
                 opponent_name = opponent_name,
