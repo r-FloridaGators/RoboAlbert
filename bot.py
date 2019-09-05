@@ -41,19 +41,29 @@ def check_football():
             opponent_school = event['boxscore']['teams'][0]['team']['location']
             opponent_name = event['boxscore']['teams'][0]['team']['name']
             start_date, start_time = (i.strip() for i in event['header']['competitions'][0]['status']['type']['shortDetail'].split('-'))
+            # determine neutral or home/away
+            if event['header']['competitions'][0]['neutralSite']:
+                home_away = 'vs'
+            else:
+                for i in event['header']['competitions'][0]['competitors']:
+                    if i['team']['location'] == 'Florida':
+                        if i['homeAway'] == 'home':
+                            home_away = 'vs'
+                        else:
+                            home_away = 'at'
 
-            # complete garbage
+            # complete garbage but works on windows + linux
             today_date = '/'.join([str(int(i)) for i in datetime.datetime.now().strftime('%m/%d').split('/')])
 
             thread_title = '[Game Thread] Florida {home_away} {opponent_school} ({start_time}, {broadcast})'.format(
-                home_away = 'vs',
+                home_away = home_away,
                 opponent_school = opponent_school,
                 start_time = start_time,
                 broadcast = broadcast
             )
 
             thread_body = football_thread.format(
-                home_away = 'vs',
+                home_away = home_away,
                 opponent_school = opponent_school,
                 opponent_name = opponent_name,
                 t0_q1 = 0,
