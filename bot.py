@@ -164,7 +164,7 @@ if __name__ == '__main__':
     schedule.every().wednesday.at('06:00').do(post_thread, title='Weekly Prediction Thread', body='Make your predictions for the games this weekend')
     schedule.every().thursday.at('06:00').do(post_thread, title='r/FloridaGators Pick\'em Reminder', body='GET YOUR PICKS LOCKED IN')
     schedule.every().thursday.at('06:00').do(post_thread, title='TRASH TALK THURSDAY', body='SMASH THAT CAPS LOT AND TALK SOME TRASH')
-    schedule.every().friday.at('06:00').do(post_thread, title='Free Talk Friday')
+    schedule.every().friday.at('07:00').do(post_thread, title='Free Talk Friday')
 
 
     try:
