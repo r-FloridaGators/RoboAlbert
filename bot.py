@@ -125,19 +125,18 @@ def thread_monitor():
         post_date = datetime.datetime.fromtimestamp(submission.created_utc)
         post_age = datetime.datetime.now() - post_date
 
-        # Sticky new game threads
-        if '[Game Thread]' in submission.title:
-            if submission.author == 'RoboAlbert':
-                if post_age.days < 1:
-                    # sort the comments
-                    submission.mod.suggested_sort(sort='new')
-                    if not submission.stickied:
-                        # Sticky the post
-                        submission.mod.sticky(state=True)
-                else:
-                    if submission.stickied:
-                        # remove old sticky
-                        submission.mod.sticky(state=False)
+        # Sticky new RoboAlbert Threads
+        if submission.author == 'RoboAlbert':
+            if post_age.days < 1:
+                # sort the comments
+                submission.mod.suggested_sort(sort='new')
+                if not submission.stickied:
+                    # Sticky the post
+                    submission.mod.sticky(state=True)
+            else:
+                if submission.stickied:
+                    # remove old sticky
+                    submission.mod.sticky(state=False)
 
         # New threads set to contest mode
         if post_age.total_seconds() < 7200:
