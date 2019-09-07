@@ -121,6 +121,8 @@ def post_thread(title='', body='', sub=target_sub, game_thread=False):
 
 
 def thread_monitor():
+    thread_id_list = []
+
     for submission in r.subreddit(target_sub).new(limit=25):
         post_date = datetime.datetime.fromtimestamp(submission.created_utc)
         post_age = datetime.datetime.now() - post_date
@@ -141,9 +143,13 @@ def thread_monitor():
         # New threads set to contest mode
         if post_age.total_seconds() < 7200:
             if post_age.total_seconds() < 3600:
-                submission.mod.contest_mode(state=True)
+                if submission.id not in thread_id_list:
+                    submission.mod.contest_mode(state=True)
+                    thread_id_list.append(submission.id)
             else:
-                submission.mod.contest_mode(state=False)
+                if submission.id in thread_id_list:
+                    submission.mod.contest_mode(state=False)
+                    thread_id_list.remove(submission.id)
 
 
 if __name__ == '__main__':
